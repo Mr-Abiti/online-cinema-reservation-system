@@ -10,25 +10,37 @@ router.use(bodyParser.urlencoded({
 }));
 
 router.get('/', (req, res, next) => {
-    res.status(200).json({
-        message: 'user route'
-    });
+    users.find()
+        .exec()
+        .then(doc => {
+            res.status(200).json(doc)
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err
+            })
+        });
 });
 
 router.post('/', (req, res, next) => {
     const user = new users({
-        _id: new mongoose.Types.ObjectId,
+        _id: new mongoose.Types.ObjectId(),
+        name: req.body.name,
+        age: req.body.age
     });
     user.save()
-        .then(result => console.log(result))
-        .catch(err => console.log(err))
-    res.status(201).json({
-        message: 'cinema is created',
-        user: user
-    });
+        .then(result => {
+            console.log(result);
+            res.status(201).json(result);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
 
-});
-
+            })
+        })
+})
 router.put('/', (req, res, next) => {
 
 });
