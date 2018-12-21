@@ -4,7 +4,8 @@
   "description": "this is simple node project for online cinema reservation system",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"nodemon server.js"
   },
   "keywords": [
     "ocr"
