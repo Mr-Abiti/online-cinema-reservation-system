@@ -2,7 +2,11 @@ const mongoose = require('mongoose');
 
 const cinemaSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    name:String
+    name: {
+        type: String,
+        required: true
+    },
+    noseat:Number
 });
 
-module.exports = mongoose.model('Cinema',cinemaSchema);
+module.exports = mongoose.model('Cinema', cinemaSchema);
