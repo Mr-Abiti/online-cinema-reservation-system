@@ -11,9 +11,17 @@ router.use(bodyParser.urlencoded({
 
 
 router.get('/',(req,res,next)=>{
-    res.status(200).json({
-        message:'cinema route'
-     });
+    Cinema.find()
+    .exec()
+    .then(doc => {
+        res.status(200).json(doc);
+    })
+    .catch(err => {
+        res.status(500).json({
+            error: err
+
+        })
+    })
 
 });
 
@@ -21,14 +29,18 @@ router.post('/',(req,res,next)=>{
     const cinemas = new Cinema({
         _id: new mongoose.Types.ObjectId,
         name: req.body.name,
+        noseat:req.body.noseat
     });
     cinemas.save()
-        .then(result => console.log(result))
-        .catch(err => console.log(err))
-    res.status(201).json({
-        message: 'movie is created',
-        cinemas: cinemas
-    });
+    .then(result =>{
+        console.log(result);
+        res.status(201).json(result);
+    })
+    .catch(err => {
+        res.status(500).json({
+            error:err
+        });
+    })
 });
 
 router.put('/',(req,res,next)=>{
