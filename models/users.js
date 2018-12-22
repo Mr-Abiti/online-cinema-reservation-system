@@ -9,6 +9,16 @@ const userSchema = mongoose.Schema({
     age: {
         type: String,
         required: true
+    },
+    email: {
+        type: String,
+        required: true,
+        unique :true,
+       // match:/
+    },
+    password: {
+        type: String,
+        required: true
     }
 });
 

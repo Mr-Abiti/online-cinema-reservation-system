@@ -24,36 +24,78 @@ router.get('/', (req, res, next) => {
         })
 });
 
+router.get('/:id', (req, res, next) => {
+    const id = req.params.id
+    movie.findById(id)
+        .exec()
+        .then(doc => {
+            res.status(200).json(doc);
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err
+
+            })
+        })
+});
+
 router.post('/', (req, res, next) => {
     const movies = new movie({
         _id: new mongoose.Types.ObjectId,
         name: req.body.name,
+        ids: req.body.ids
     });
     movies.save()
-    .then(result =>{
-        console.log(result);
-        res.status(201).json(result);
-    })
-    .catch(err => {
-        res.status(500).json({
-            error:err
-        });
-    })
+        .then(result => {
+            console.log(result);
+            res.status(201).json(result);
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err
+            });
+        })
 
 
 
 });
 
-router.put('/', (req, res, next) => {
+router.put('/:id', (req, res, next) => {
+    const id = req.params.id;
+    const movies = new movie({
+        name: req.body.name,
+        ids: req.body.ids
+    });
+    movie.findOneAndUpdate({
+            _id: id
+        }, movies,{new:true})
+        .exec()
+        .then(result => {
+            res.status(200).json(result);
 
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err
+            })
+        })
 });
 
 router.delete('/:id', (req, res, next) => {
-
+    const id = req.params.id;
+    movie.deleteOne({
+            _id: id
+        })
+        .exec()
+        .then(result => {
+            res.status(200).json(result);
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err
+            })
+        })
 });
 
-router.patch('/:id', (req, res, next) => {
-
-});
 
 module.exports = router;

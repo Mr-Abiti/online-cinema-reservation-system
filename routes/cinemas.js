@@ -24,6 +24,21 @@ router.get('/',(req,res,next)=>{
     })
 
 });
+router.get('/:id',(req,res,next)=>{
+    const id =req.params.id;
+    Cinema.findById(id)
+    .exec()
+    .then(doc => {
+        res.status(200).json(doc);
+    })
+    .catch(err => {
+        res.status(500).json({
+            error: err
+
+        })
+    })
+
+});
 
 router.post('/',(req,res,next)=>{
     const cinemas = new Cinema({
@@ -43,16 +58,43 @@ router.post('/',(req,res,next)=>{
     })
 });
 
-router.put('/',(req,res,next)=>{
+router.put('/:id',(req,res,next)=>{
+    const id = req.params.id;
+    const cinema = new Cinema({
+        name: req.body.name,
+        noseat: req.body.noseat
+    });
+    Cinema.findOneAndUpdate({
+            _id: id
+        },cinema ,{new:true})
+        .exec()
+        .then(result => {
 
+            res.status(200).json(result);
+
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err
+            })
+        })
 });
 
 router.delete('/:id',(req,res,next)=>{
-
+    const id = req.params.id;
+    Cinema.deleteOne({
+            _id: id
+        })
+        .exec()
+        .then(result => {
+            res.status(200).json(result);
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err
+            })
+        })
 });
 
-router.patch('/:id',(req,res,next)=>{
-
-});
 
 module.exports = router;
