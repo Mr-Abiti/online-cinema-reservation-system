@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const userRoute = require('./routes/users');
 const movieRoute = require('./routes/movies');
 const cinemaRoute = require('./routes/cinemas');
+const reservRoute =require('./routes/reserv');
 
 const app = express();
 app.use(morgan('dev'));
@@ -21,6 +22,7 @@ app.use(bodyParser.urlencoded({
 app.use('/user', userRoute);
 app.use('/movie', movieRoute);
 app.use('/cinema', cinemaRoute);
+app.use('/reserv',reservRoute);
 
 app.use((req, res, next) => {
     const error = new Error('not found');
