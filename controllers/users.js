@@ -23,8 +23,8 @@ exports.users_signup = (req, res, next) => {
                             const user = new users({
                                 _id: new mongoose.Types.ObjectId(),
                                 name: req.body.name,
-                                age: req.body.age,
-                                email: req.body.email,
+                                address: req.body.address,
+                                contact: req.body.contact,
                                 password: hash
                             })
                             user.save()
@@ -120,8 +120,8 @@ exports.user_create = (req, res, next) => {
     const user = new users({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        age: req.body.age,
-        email: req.body.email,
+        address: req.body.address,
+        contact: req.body.contact,
         password: req.body.password
     });
     user.save()

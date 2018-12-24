@@ -1,8 +1,9 @@
-const movie = require('../models/movies');
+const reserv = require('../models/reserv');
 const mongoose = require('mongoose');
-const auth = require('../middleware/check-auth');
-exports.movie_get_all = (req, res, next) => {
-    movie.find()
+
+exports.get_all_reserved = (req, res, next) => {
+    reserv.find()
+        .populate('user cinema movie')
         .exec()
         .then(doc => {
             res.status(200).json(doc);
@@ -14,9 +15,9 @@ exports.movie_get_all = (req, res, next) => {
             })
         })
 }
-exports.movie_get_by_id = (req, res, next) => {
+exports.get_reserved_by_id = (req, res, next) => {
     const id = req.params.id
-    movie.findById(id)
+    reserv.findById(id)
         .exec()
         .then(doc => {
             res.status(200).json(doc);
@@ -28,15 +29,14 @@ exports.movie_get_by_id = (req, res, next) => {
             })
         })
 }
-exports.movie_creat = (req, res, next) => {
-    const movies = new movie({
+exports.reserv = (req, res, next) => {
+    const reservs = new reserv({
         _id: new mongoose.Types.ObjectId,
-        name: req.body.name,
-        geners: req.body.geners,
-        duration:req.body.duration,
-        rating:req.body.rating
+        user: req.body.user,
+        cinema: req.body.cinema,
+        movie: req.body.movie
     });
-    movies.save()
+    reservs.save()
         .then(result => {
             console.log(result);
             res.status(201).json(result);
@@ -50,17 +50,17 @@ exports.movie_creat = (req, res, next) => {
 
 
 }
-exports.movie_modify = (req, res, next) => {
+exports.modify_reserv = (req, res, next) => {
     const id = req.params.id;
-    const movies = new movie({
-        name: req.body.name,
-        geners: req.body.geners,
-        duration:req.body.duration,
-        rating:req.body.rating
+    const reservs = new reserv({
+        _id: new mongoose.Types.ObjectId,
+        user: req.body.user,
+        cinema: req.body.cinema,
+        movie: req.body.cinema
     });
-    movie.findOneAndUpdate({
+    reserv.findOneAndUpdate({
             _id: id
-        }, movies, {
+        }, reservs, {
             new: true
         })
         .exec()
@@ -74,9 +74,9 @@ exports.movie_modify = (req, res, next) => {
             })
         })
 }
-exports.movie_delete = (req, res, next) => {
+exports.delete_reserv = (req, res, next) => {
     const id = req.params.id;
-    movie.deleteOne({
+    reserv.deleteOne({
             _id: id
         })
         .exec()

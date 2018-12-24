@@ -1,5 +1,6 @@
 const Cinema = require('../models/cinemas');
 const mongoose = require('mongoose');
+
 exports.cinema_get_all = (req, res, next) => {
     Cinema.find()
         .exec()
@@ -33,7 +34,8 @@ exports.cinema_creat = (req, res, next) => {
     const cinemas = new Cinema({
         _id: new mongoose.Types.ObjectId,
         name: req.body.name,
-        noseat: req.body.noseat
+        address:req.body.address,
+        no_of_seat: req.body.no_of_seat
     });
     cinemas.save()
         .then(result => {
