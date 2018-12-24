@@ -6,7 +6,7 @@ const movieSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    ids:Number
+    ids: Number
 });
 
 module.exports = mongoose.model('Movie', movieSchema);

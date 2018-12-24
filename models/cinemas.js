@@ -6,7 +6,7 @@ const cinemaSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    noseat:Number
+    noseat: Number
 });
 
 module.exports = mongoose.model('Cinema', cinemaSchema);
